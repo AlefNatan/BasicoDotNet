@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Text.Json.Serialization;
 using Bernhoeft.GRT.Core.Extensions;
 using Bernhoeft.GRT.Core.Models;
-using Bernhoeft.GRT.Teste.Api.Handlers;
 using Bernhoeft.GRT.Teste.Api.Swashbuckle;
 using Bernhoeft.GRT.Teste.Application.Behaviors;
 using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1;
@@ -11,7 +10,6 @@ using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1.Validations;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
@@ -109,17 +107,11 @@ builder.Services.AddFluentValidationAutoValidation(options => options.DisableDat
                 .AddFluentValidationClientsideAdapters()
                 .AddValidatorsFromAssemblyContaining<GetAvisosRequest>();
 
-builder.Services.AddValidatorsFromAssembly(typeof(GetAvisoRequestValidation).Assembly);
-
 builder.Services.AddFluentValidationRulesToSwagger();
 
 // Configure Some Options
 builder.Services.Configure<FormOptions>(options => options.ValueCountLimit = int.MaxValue)
                 .Configure<RouteOptions>(options => options.LowercaseUrls = true);
-
-
-builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
-builder.Services.AddProblemDetails();
 
 // Configurando a Pipeline do HTTP Request.
 var app = builder.Build();
@@ -149,7 +141,7 @@ app.UseCors(options => options.WithOrigins()
                               .AllowCredentials()
                               .SetIsOriginAllowed(origin => true));
 app.UseHttpsRedirection();
-app.UseExceptionHandler();
+app.UseMiddleware<ValidationExceptionHandler>();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

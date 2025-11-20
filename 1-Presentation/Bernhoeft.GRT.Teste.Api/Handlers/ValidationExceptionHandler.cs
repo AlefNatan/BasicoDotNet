@@ -1,35 +1,43 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Bernhoeft.GRT.Core.Models;
+using System.Text.Json;
 
 namespace Bernhoeft.GRT.Teste.Api.Handlers
 {
-    public class ValidationExceptionHandler : IExceptionHandler
+    public class ValidationExceptionHandler
     {
-        public async ValueTask<bool> TryHandleAsync(
-            HttpContext httpContext,
-            Exception exception,
-            CancellationToken cancellationToken)
+        private readonly RequestDelegate _next;
+        private readonly ILogger<ValidationExceptionHandler> _logger;
+
+        public ValidationExceptionHandler(RequestDelegate next, ILogger<ValidationExceptionHandler> logger)
         {
-            if (exception is ValidationException validationException)
+            _next = next;
+            _logger = logger;
+        }
+
+        public async Task InvokeAsync(HttpContext context)
+        {
+            try
             {
-                var errors = validationException.Errors
-                    .Select(e => e.ErrorMessage)
-                    .Distinct()
-                    .ToList();
-
-                var result = OperationResult<bool>.ReturnBadRequest();
-                result.AddMessage(errors);
-
-                httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-                httpContext.Response.ContentType = "application/json";
-
-                await httpContext.Response.WriteAsJsonAsync(result, cancellationToken);
-                return true;
+                await _next(context);
             }
+            catch (ValidationException ex)
+            {
+                await HandleValidationExceptionAsync(context, ex);
+            }
+        }
 
-            return false;
+        private static async Task HandleValidationExceptionAsync(HttpContext context, ValidationException exception)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.ContentType = "application/json";
+
+            var errorResponse = new
+            {
+                Mensagens = exception.Errors.Select(error => error.ErrorMessage).ToList()
+            };
+
+            var json = JsonSerializer.Serialize(errorResponse);
+            await context.Response.WriteAsync(json);
         }
     }
 }
