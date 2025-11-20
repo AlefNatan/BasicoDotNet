@@ -1,0 +1,34 @@
+﻿using Bernhoeft.GRT.ContractWeb.Domain.SqlServer.ContractStore.Interfaces.Repositories;
+using Bernhoeft.GRT.Core.EntityFramework.Domain.Interfaces;
+using Bernhoeft.GRT.Core.Enums;
+using Bernhoeft.GRT.Core.Interfaces.Results;
+using Bernhoeft.GRT.Core.Models;
+using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1;
+using Bernhoeft.GRT.Teste.Application.Responses.Queries.v1;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Bernhoeft.GRT.Teste.Application.Handlers.Queries.v1
+{
+    public class GetAvisoHandler : IRequestHandler<GetAvisoRequest, IOperationResult<GetAvisoResponse>>
+    {
+        private readonly IAvisoRepository _avisoRepository;
+
+        public GetAvisoHandler(IAvisoRepository avisoRepository)
+        {
+            _avisoRepository = avisoRepository;
+        }
+
+        public async Task<IOperationResult<GetAvisoResponse>> Handle(GetAvisoRequest request, CancellationToken cancellationToken)
+        {
+            Console.WriteLine($"GetAvisoHandler executado para ID: {request.Id}");
+
+            var result = await _avisoRepository.ObterAvisoPorIdAsync(request.Id, TrackingBehavior.NoTracking);
+
+            if (result == null)
+                return OperationResult<GetAvisoResponse>.ReturnNotFound();
+
+            return OperationResult<GetAvisoResponse>.ReturnOk((GetAvisoResponse)result);
+        }
+    }
+}
