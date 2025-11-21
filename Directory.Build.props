@@ -2,7 +2,18 @@
   <PropertyGroup>
     <OutputPath>$(SolutionDir)Build\$(MSBuildProjectName)\$(Configuration)\bin</OutputPath>
     <BaseIntermediateOutputPath>$(SolutionDir)Build\$(MSBuildProjectName)\$(Configuration)\obj</BaseIntermediateOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
     <NoWarn>$(NoWarn);NU1701;MSB4011</NoWarn>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(MSBuildProjectName.Contains('Test'))">
+    <OutputPath>$(MSBuildProjectDirectory)\bin\$(Configuration)\</OutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\obj\$(Configuration)\</BaseIntermediateOutputPath>
+    <UseCommonOutputDirectory>false</UseCommonOutputDirectory>
   </PropertyGroup>
 </Project>

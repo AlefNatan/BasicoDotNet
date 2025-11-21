@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="FluentAssertions" Version="8.8.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\2-Application\Bernhoeft.GRT.Teste.Application\Bernhoeft.GRT.Teste.Application.csproj" />
+    <ProjectReference Include="..\..\3-Domain\Bernhoeft.GRT.Teste.Domain\Bernhoeft.GRT.Teste.Domain.csproj" />
+    <ProjectReference Include="..\..\4-Infra\Bernhoeft.GRT.Teste.Infra.Persistence.InMemory\Bernhoeft.GRT.Teste.Infra.Persistence.InMemory.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <_FixTestHostCopy>true</_FixTestHostCopy>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+</Project>

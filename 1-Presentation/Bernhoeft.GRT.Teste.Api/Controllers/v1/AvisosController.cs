@@ -76,8 +76,8 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         /// Atualiza um aviso existente.
         /// </summary>
         /// <param name="id">ID do aviso</param>
-        /// <param name="command"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="request">Dados para atualização do aviso</param>
+        /// <param name="cancellationToken">Token de cancelamento</param>
         /// <returns></returns>
         /// <response code="200">Aviso atualizado com sucesso.</response>
         /// <response code="400">Dados inválidos.</response>
