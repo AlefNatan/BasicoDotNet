@@ -21,8 +21,6 @@ namespace Bernhoeft.GRT.Teste.Application.Handlers.Queries.v1
 
         public async Task<IOperationResult<GetAvisoResponse>> Handle(GetAvisoRequest request, CancellationToken cancellationToken)
         {
-            Console.WriteLine($"GetAvisoHandler executado para ID: {request.Id}");
-
             var result = await _avisoRepository.ObterAvisoPorIdAsync(request.Id, TrackingBehavior.NoTracking);
 
             if (result == null)

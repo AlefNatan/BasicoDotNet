@@ -8,8 +8,6 @@ namespace Bernhoeft.GRT.Teste.Application.Requests.Queries.v1
     {
         public int Id { get; set; }
 
-        public GetAvisoRequest() { }
-
         public GetAvisoRequest(int id)
         {
             Id = id;

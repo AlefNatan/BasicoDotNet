@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text.Json.Serialization;
 using Bernhoeft.GRT.Core.Extensions;
 using Bernhoeft.GRT.Core.Models;
+using Bernhoeft.GRT.Teste.Api.Handlers;
 using Bernhoeft.GRT.Teste.Api.Swashbuckle;
 using Bernhoeft.GRT.Teste.Application.Behaviors;
 using Bernhoeft.GRT.Teste.Application.Requests.Queries.v1;

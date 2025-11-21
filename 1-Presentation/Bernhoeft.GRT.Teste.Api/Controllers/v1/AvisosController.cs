@@ -34,10 +34,7 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         // [JwtAuthorize(Roles = AuthorizationRoles.CONTRACTLAYOUT_SISTEMA_AVISO_PESQUISAR)]
         public async Task<object> GetAviso([FromRoute] int id, CancellationToken cancellationToken)
-        {
-            var request = new GetAvisoRequest(id);
-            return await Mediator.Send(request, cancellationToken);
-        }
+            => await Mediator.Send(new GetAvisoRequest(id), cancellationToken);
 
         /// <summary>
         /// Retorna Todos os Avisos Cadastrados para Tela de Edição.
@@ -89,11 +86,8 @@ namespace Bernhoeft.GRT.Teste.Api.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<object> UpdateAviso(int id, [FromBody] UpdateAvisoCommand command, CancellationToken cancellationToken)
-        {
-            command.Id = id; 
-            return await Mediator.Send(command, cancellationToken);
-        }
+        public async Task<object> UpdateAviso(int id, [FromBody] UpdateAvisoRequest request, CancellationToken cancellationToken)
+            => await Mediator.Send(new UpdateAvisoCommand(id, request.Mensagem), cancellationToken);
 
         /// <summary>
         /// Exclui um aviso (soft delete).
